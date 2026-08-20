@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YADIRIS TV</title>
+<style>
+body{background:black;color:white;margin:0;font-family:Arial}
+.header{background:red;padding:15px;text-align:center;font-weight:bold;font-size:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+.card{background:#222;border-radius:10px;padding:10px;text-align:center}
+</style>
+</head>
+<body>
+<div class="header">YADIRIS TV</div>
+<div id="lista" class="grid">Cargando...</div>
+<script>
+fetch('https://raw.githubusercontent.com/jairh43-yadiris/yadiris-tv/main/lista.m3u')
+.then(r=>r.text())
+.then(t=>{
+let div=document.getElementById('lista');
+div.innerHTML='';
+let lineas=t.split('\n');
+for(let i=0;i<lineas.length;i++){
+if(lineas[i].includes('#EXTINF')){
+let titulo=lineas[i].split(',')[1];
+let link=lineas[i+1];
+div.innerHTML+=`<div class="card" onclick="window.open('${link}')"><div>▶ PLAY</div><div>${titulo}</div></div>`;
+}
+}
+});
+</script>
+</body>
+</html>
